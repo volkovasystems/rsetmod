@@ -64,7 +64,7 @@
 
 	@include:
 		{
-			"fs": "fs",
+			"fs": "fs-extra",
 			"fype": "fype",
 			"glob": "glob",
 			"kept": "kept",
@@ -79,7 +79,7 @@
 	@end-include
 */
 
-const fs = require( "fs" );
+const fs = require( "fs-extra" );
 const fype = require( "fype" );
 const glob = require( "glob" );
 const kept = require( "kept" );
@@ -113,15 +113,20 @@ const rsetmod = function rsetmod( directory ){
 	}
 
 	try{
-		fs.unlinkSync( path.resolve( directory, "node_modules" ) );
+		let nodeModulePath = path.resolve( directory, "node_modules" );
+		kept( nodeModulePath, true ) && fs.removeSync( nodeModulePath );
 
-		fs.unlinkSync( path.resolve( directory, "bower_components" ) );
+		let bowerComponentPath = path.resolve( directory, "bower_components" );
+		kept( bowerComponentPath, true ) && fs.removeSync( bowerComponentPath );
 
-		fs.unlinkSync( path.resolve( directory, "yarn.lock" ) );
+		let yarnPath = path.resolve( directory, "yarn.lock" );
+		kept( yarnPath, true ) && fs.unlinkSync( yarnPath );
 
-		fs.unlinkSync( path.resolve( directory, "package-lock.json" ) );
+		let packageLockPath = path.resolve( directory, "package-lock.json" );
+		kept( packageLockPath, true ) && fs.unlinkSync( packageLockPath );
 
-		fs.unlinkSync( path.resolve( directory, "npmshrinkwrap.json" ) );
+		let npmshrinkwrapPath = path.resolve( directory, "npmshrinkwrap.json" );
+		kept( npmshrinkwrapPath, true ) && fs.unlinkSync( npmshrinkwrapPath );
 
 	}catch( error ){
 		throw new Error( `cannot clean installed files, ${ error.stack }` );
@@ -131,49 +136,64 @@ const rsetmod = function rsetmod( directory ){
 		let unique = unqr.bind( [ ] );
 
 		glob.sync( path.resolve( directory, "*.deploy.js" ) )
-			.concat( glob.sync( path.resolve( directory, "*.support.js" ) )
-			.concat( glob.sync( path.resolve( directory, "*.module.js" ) )
+			.concat( glob.sync( path.resolve( directory, "*.support.js" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
 			.map( ( file ) => mtch( file, FILE_MODULE_PATTERN, 1 ) )
 			.filter( truly )
 			.filter( ( name ) => unique( name ) )
 			.forEach( ( name ) => {
-				fs.unlinkSync( path.resolve( directory, `${ name }.deploy.js` ) );
+				let deployPath = path.resolve( directory, `${ name }.deploy.js` );
+				kept( deployPath, true ) && fs.unlinkSync( deployPath );
 
-				fs.unlinkSync( path.resolve( directory, `${ name }.support.js` ) );
+				let deployMapPath = path.resolve( directory, `${ name }.deploy.js.map` );
+				kept( deployMapPath, true ) && fs.unlinkSync( deployMapPath );
 
-				if( kept( path.resolve( directory, `${ name }.module.js` ), true ) ){
-					fs.unlinkSync( path.resolve( directory, `${ name }.js` ) );
-				}
+				let supportPath = path.resolve( directory, `${ name }.support.js` );
+				kept( supportPath, true ) && fs.unlinkSync( supportPath );
+
+				let supportMapPath = path.resolve( directory, `${ name }.support.js.map` );
+				kept( supportMapPath, true ) && fs.unlinkSync( supportMapPath );
+
+				let modulePath = path.resolve( directory, `${ name }.js` );
+				kept( path.resolve( directory, `${ name }.module.js` ), true ) &&
+				kept( modulePath, true ) && fs.unlinkSync( modulePath );
+
+				let moduleMapPath = path.resolve( directory, `${ name }.js.map` );
+				kept( moduleMapPath, true ) && fs.unlinkSync( moduleMapPath );
 			} );
 
 	}catch( error ){
 		throw new Error( `cannot clean generated module files, ${ error.stack }` );
 	}
 
-	try{
-		let packagePath = path.resolve( directory, "package.json" );
-		let packageData = JSON.parse( jersy( packagePath, true ) );
+	let packagePath = path.resolve( directory, "package.json" );
+	if( kept( packagePath, true ) ){
+		try{
+			let packageData = JSON.parse( jersy( packagePath, true ) );
 
-		delete packageData.devDependencies;
-		delete packageData.dependencies;
+			delete packageData.devDependencies;
+			delete packageData.dependencies;
 
-		persy( packagePath, packageData, true );
+			persy( packagePath, packageData, true );
 
-	}catch( error ){
-		throw new Error( `cannot clean package.json, ${ error.stack }` );
+		}catch( error ){
+			throw new Error( `cannot clean package.json, ${ error.stack }` );
+		}
 	}
 
-	try{
-		let bowerPath = path.resolve( directory, "bower.json" );
-		let bowerData = JSON.parse( jersy( bowerPath, true ) );
+	let bowerPath = path.resolve( directory, "bower.json" );
+	if( kept( bowerPath, true ) ){
+		try{
+			let bowerData = JSON.parse( jersy( bowerPath, true ) );
 
-		delete bowerData.resolutions;
-		delete bowerData.dependencies;
+			delete bowerData.resolutions;
+			delete bowerData.dependencies;
 
-		persy( bowerPath, bowerData, true );
+			persy( bowerPath, bowerData, true );
 
-	}catch( error ){
-		throw new Error( `cannot clean bower.json, ${ error.stack }` );
+		}catch( error ){
+			throw new Error( `cannot clean bower.json, ${ error.stack }` );
+		}
 	}
 
 	return true;

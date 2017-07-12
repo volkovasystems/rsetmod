@@ -1,4 +1,5 @@
 yarn add \
+fs-extra \
 fype \
 glob \
 kept \

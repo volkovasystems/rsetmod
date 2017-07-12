@@ -1,27 +1,46 @@
 {
-  "name": "rsetmod",
-  "version": "0.0.0",
-  "description": "Reset module to pristine development mode.",
-  "main": "rsetmod.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/volkovasystems/rsetmod.git"
-  },
-  "keywords": [
-    "reset",
-    "module",
-    "pristine",
-    "development",
-    "mode",
-    "rsetmod"
-  ],
-  "author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/volkovasystems/rsetmod/issues"
-  },
-  "homepage": "https://github.com/volkovasystems/rsetmod#readme"
+	"name": "rsetmod",
+	"version": "0.0.0",
+	"description": "Reset module to pristine development mode.",
+	"main": "rsetmod.js",
+	"scripts": {
+		"test": "mocha rsetmod-test.js"
+	},
+	"option": {
+		"shell": "rsetmod"
+	},
+	"bin": {
+		"rsetmod": "run.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/volkovasystems/rsetmod.git"
+	},
+	"keywords": [
+		"reset",
+		"module",
+		"pristine",
+		"development",
+		"mode",
+		"rsetmod"
+	],
+	"author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/volkovasystems/rsetmod/issues"
+	},
+	"homepage": "https://github.com/volkovasystems/rsetmod#readme",
+	"dependencies": {
+		"fs-extra": "^3.0.1",
+		"fype": "^0.0.0",
+		"glob": "^7.1.2",
+		"jersy": "^0.12.0",
+		"kept": "^0.24.0",
+		"mtch": "^0.4.0",
+		"persy": "^0.15.0",
+		"truly": "^0.19.0",
+		"unqr": "^0.0.0",
+		"wichevr": "^0.13.0",
+		"yargs": "^8.0.2"
+	}
 }
