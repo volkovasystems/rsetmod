@@ -139,6 +139,7 @@ const rsetmod = function rsetmod( directory ){
 			.concat( glob.sync( path.resolve( directory, "*.support.js" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.js" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.jsx" ) ) )
 			.map( ( file ) => mtch( file, FILE_MODULE_PATTERN, 1 ) )
 			.filter( truly )
 			.filter( ( name ) => unique( name ) )
@@ -161,6 +162,14 @@ const rsetmod = function rsetmod( directory ){
 
 				let moduleMapPath = path.resolve( directory, `${ name }.js.map` );
 				kept( moduleMapPath, true ) && fs.unlinkSync( moduleMapPath );
+
+				let jsxPath = path.resolve( directory, `${ name }.jsx` );
+
+				let jsPath = path.resolve( directory, `${ name }.js` );
+				kept( jsxPath, true ) && kept( jsPath, true ) && fs.unlinkSync( jsPath );
+
+				let jsMapPath = path.resolve( directory, `${ name }.js.map` );
+				kept( jsxPath, true ) && kept( jsMapPath, true ) && fs.unlinkSync( jsMapPath );
 			} );
 
 	}catch( error ){
