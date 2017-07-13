@@ -138,6 +138,7 @@ const rsetmod = function rsetmod( directory ){
 		glob.sync( path.resolve( directory, "*.deploy.js" ) )
 			.concat( glob.sync( path.resolve( directory, "*.support.js" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.js" ) ) )
 			.map( ( file ) => mtch( file, FILE_MODULE_PATTERN, 1 ) )
 			.filter( truly )
 			.filter( ( name ) => unique( name ) )
