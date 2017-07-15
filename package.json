@@ -1,6 +1,6 @@
 {
 	"name": "rsetmod",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Reset module to pristine development mode.",
 	"main": "rsetmod.js",
 	"scripts": {
@@ -31,16 +31,18 @@
 	},
 	"homepage": "https://github.com/volkovasystems/rsetmod#readme",
 	"dependencies": {
-		"fs-extra": "^3.0.1",
+		"depher": "^0.36.0",
+		"detr": "^0.1.0",
+		"fs-extra": "^4.0.0",
 		"fype": "^0.0.0",
 		"glob": "^7.1.2",
 		"jersy": "^0.12.0",
 		"kept": "^0.24.0",
 		"mtch": "^0.4.0",
 		"persy": "^0.15.0",
+		"raze": "^0.33.0",
 		"truly": "^0.19.0",
 		"unqr": "^0.0.0",
-		"wichevr": "^0.13.0",
 		"yargs": "^8.0.2"
 	}
 }

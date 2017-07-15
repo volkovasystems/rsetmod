@@ -64,6 +64,8 @@
 
 	@include:
 		{
+			"depher": "depher",
+			"detr": "detr",
 			"fs": "fs-extra",
 			"fype": "fype",
 			"glob": "glob",
@@ -72,13 +74,15 @@
 			"mtch": "mtch",
 			"path": "path",
 			"persy": "persy",
+			"raze": "raze",
 			"truly": "truly",
-			"unqr": "unqr",
-			"wichevr": "wichevr"
+			"unqr": "unqr"
 		}
 	@end-include
 */
 
+const depher = require( "depher" );
+const detr = require( "detr" );
 const fs = require( "fs-extra" );
 const fype = require( "fype" );
 const glob = require( "glob" );
@@ -87,26 +91,29 @@ const jersy = require( "jersy" );
 const mtch = require( "mtch" );
 const path = require( "path" );
 const persy = require( "persy" );
+const raze = require( "raze" );
 const truly = require( "truly" );
 const unqr = require( "unqr" );
-const wichevr = require( "wichevr" );
 
 const FILE_MODULE_PATTERN = /([a-zA-Z0-9\-\_]+?)\.(?:deploy|support|module)\.js$/;
 
-const rsetmod = function rsetmod( directory ){
+const rsetmod = function rsetmod( directory, option ){
 	/*;
 		@meta-configuration:
 			{
-				"directory": "string"
+				"directory": "string",
+				"option": "object"
 			}
 		@end-meta-configuration
 	*/
 
-	directory = wichevr( directory, process.cwd( ) );
+	let parameter = raze( arguments );
 
-	if( typeof directory != "string" ){
-		throw new Error( "invalid directory" );
-	}
+	directory = depher( parameter, STRING, process.cwd( ) );
+
+	option = detr( parameter, {
+		"clear": false
+	} );
 
 	if( !fype( directory, DIRECTORY, true ) ){
 		throw new Error( "invalid directory" );
@@ -132,48 +139,62 @@ const rsetmod = function rsetmod( directory ){
 		throw new Error( `cannot clean installed files, ${ error.stack }` );
 	}
 
-	try{
-		let unique = unqr.bind( [ ] );
+	if( !option.clear ){
+		try{
+			let unique = unqr.bind( [ ] );
 
-		glob.sync( path.resolve( directory, "*.deploy.js" ) )
-			.concat( glob.sync( path.resolve( directory, "*.support.js" ) ) )
-			.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
-			.concat( glob.sync( path.resolve( directory, "*.js" ) ) )
-			.concat( glob.sync( path.resolve( directory, "*.jsx" ) ) )
-			.map( ( file ) => mtch( file, FILE_MODULE_PATTERN, 1 ) )
-			.filter( truly )
-			.filter( ( name ) => unique( name ) )
-			.forEach( ( name ) => {
-				let deployPath = path.resolve( directory, `${ name }.deploy.js` );
-				kept( deployPath, true ) && fs.unlinkSync( deployPath );
+			glob.sync( path.resolve( directory, "*.deploy.*" ) )
+				.concat( glob.sync( path.resolve( directory, "*.support.*" ) ) )
+				.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
+				.concat( glob.sync( path.resolve( directory, "*.js" ) ) )
+				.concat( glob.sync( path.resolve( directory, "*.jsx" ) ) )
+				.map( ( file ) => mtch( file, FILE_MODULE_PATTERN, 1 ) )
+				.filter( truly )
+				.filter( ( name ) => unique( name ) )
+				.forEach( ( name ) => {
+					let deployPath = path.resolve( directory, `${ name }.deploy.js` );
+					kept( deployPath, true ) && fs.unlinkSync( deployPath );
 
-				let deployMapPath = path.resolve( directory, `${ name }.deploy.js.map` );
-				kept( deployMapPath, true ) && fs.unlinkSync( deployMapPath );
+					let deployMapPath = path.resolve( directory, `${ name }.deploy.js.map` );
+					kept( deployMapPath, true ) && fs.unlinkSync( deployMapPath );
 
-				let supportPath = path.resolve( directory, `${ name }.support.js` );
-				kept( supportPath, true ) && fs.unlinkSync( supportPath );
+					let supportPath = path.resolve( directory, `${ name }.support.js` );
+					kept( supportPath, true ) && fs.unlinkSync( supportPath );
 
-				let supportMapPath = path.resolve( directory, `${ name }.support.js.map` );
-				kept( supportMapPath, true ) && fs.unlinkSync( supportMapPath );
+					let supportMapPath = path.resolve( directory, `${ name }.support.js.map` );
+					kept( supportMapPath, true ) && fs.unlinkSync( supportMapPath );
 
-				let modulePath = path.resolve( directory, `${ name }.js` );
-				kept( path.resolve( directory, `${ name }.module.js` ), true ) &&
-				kept( modulePath, true ) && fs.unlinkSync( modulePath );
+					let modulePath = path.resolve( directory, `${ name }.js` );
+					kept( path.resolve( directory, `${ name }.module.js` ), true ) &&
+					kept( modulePath, true ) && fs.unlinkSync( modulePath );
 
-				let moduleMapPath = path.resolve( directory, `${ name }.js.map` );
-				kept( moduleMapPath, true ) && fs.unlinkSync( moduleMapPath );
+					let moduleMapPath = path.resolve( directory, `${ name }.js.map` );
+					kept( moduleMapPath, true ) && fs.unlinkSync( moduleMapPath );
 
-				let jsxPath = path.resolve( directory, `${ name }.jsx` );
+					let jsxPath = path.resolve( directory, `${ name }.jsx` );
 
-				let jsPath = path.resolve( directory, `${ name }.js` );
-				kept( jsxPath, true ) && kept( jsPath, true ) && fs.unlinkSync( jsPath );
+					let jsPath = path.resolve( directory, `${ name }.js` );
+					kept( jsxPath, true ) && kept( jsPath, true ) && fs.unlinkSync( jsPath );
 
-				let jsMapPath = path.resolve( directory, `${ name }.js.map` );
-				kept( jsxPath, true ) && kept( jsMapPath, true ) && fs.unlinkSync( jsMapPath );
-			} );
+					let jsMapPath = path.resolve( directory, `${ name }.js.map` );
+					kept( jsxPath, true ) && kept( jsMapPath, true ) && fs.unlinkSync( jsMapPath );
 
-	}catch( error ){
-		throw new Error( `cannot clean generated module files, ${ error.stack }` );
+					let deployHTMLPath = path.resolve( directory, `${ name }.deploy.html` );
+					kept( deployHTMLPath, true ) && fs.unlinkSync( deployHTMLPath );
+
+					let supportHTMLPath = path.resolve( directory, `${ name }.support.html` );
+					kept( supportHTMLPath, true ) && fs.unlinkSync( supportHTMLPath );
+
+					let deployCSSPath = path.resolve( directory, `${ name }.deploy.css` );
+					kept( deployCSSPath, true ) && fs.unlinkSync( deployCSSPath );
+
+					let supportCSSPath = path.resolve( directory, `${ name }.support.css` );
+					kept( supportCSSPath, true ) && fs.unlinkSync( supportCSSPath );
+				} );
+
+		}catch( error ){
+			throw new Error( `cannot clean generated module files, ${ error.stack }` );
+		}
 	}
 
 	let packagePath = path.resolve( directory, "package.json" );

@@ -72,6 +72,13 @@ const parameter = yargs
 	.example( "$0 clean",
 		"Reset current working module directory to pristine development mode." )
 
+	.option( "cr", {
+		"alias": "clear",
+		"default": false,
+		"describe": "Only remove generated files and not the installed dependencies.",
+		"type": "boolean"
+	} )
+
 	.help( "help" )
 
 	.version( function version( ){
@@ -84,4 +91,6 @@ const parameter = yargs
 
 	.argv;
 
-rsetmod( parameter.directory );
+rsetmod( parameter.directory, {
+	"clear": parameter.clear
+} );

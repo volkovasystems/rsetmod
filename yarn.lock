@@ -514,6 +514,17 @@ depher@^0.36.0:
     raze "^0.33.0"
     zelf "^0.12.0"
 
+detr@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/detr/-/detr-0.1.0.tgz#d98c80d587f3a959b9b4a9460386fc812b018754"
+  dependencies:
+    babel-runtime "^6.23.0"
+    depher "^0.35.0"
+    doubt "^0.27.0"
+    empt "^0.23.0"
+    falzy "^0.20.0"
+    protype "^0.22.0"
+
 diatom@^0.32.0:
   version "0.32.0"
   resolved "https://registry.yarnpkg.com/diatom/-/diatom-0.32.0.tgz#1d56a21ccc7f1d131d364de08424be91850ecc62"
@@ -929,9 +940,9 @@ fnamed@^0.9.0:
     protype "^0.22.0"
     truly "^0.19.0"
 
-fs-extra@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-3.0.1.tgz#3794f378c58b342ea7dbbb23095109c4b3b62291"
+fs-extra@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.0.tgz#414fb4ca2d2170ba0014159d3a8aec3303418d9e"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^3.0.0"
