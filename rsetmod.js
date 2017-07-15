@@ -119,111 +119,113 @@ const rsetmod = function rsetmod( directory, option ){
 		throw new Error( "invalid directory" );
 	}
 
+	if( !option.clear ){
+		try{
+			let nodeModulePath = path.resolve( directory, "node_modules" );
+			kept( nodeModulePath, true ) && fs.removeSync( nodeModulePath );
+
+			let bowerComponentPath = path.resolve( directory, "bower_components" );
+			kept( bowerComponentPath, true ) && fs.removeSync( bowerComponentPath );
+
+			let yarnPath = path.resolve( directory, "yarn.lock" );
+			kept( yarnPath, true ) && fs.unlinkSync( yarnPath );
+
+			let packageLockPath = path.resolve( directory, "package-lock.json" );
+			kept( packageLockPath, true ) && fs.unlinkSync( packageLockPath );
+
+			let npmshrinkwrapPath = path.resolve( directory, "npmshrinkwrap.json" );
+			kept( npmshrinkwrapPath, true ) && fs.unlinkSync( npmshrinkwrapPath );
+
+		}catch( error ){
+			throw new Error( `cannot clean installed files, ${ error.stack }` );
+		}
+	}
+
 	try{
-		let nodeModulePath = path.resolve( directory, "node_modules" );
-		kept( nodeModulePath, true ) && fs.removeSync( nodeModulePath );
+		let unique = unqr.bind( [ ] );
 
-		let bowerComponentPath = path.resolve( directory, "bower_components" );
-		kept( bowerComponentPath, true ) && fs.removeSync( bowerComponentPath );
+		glob.sync( path.resolve( directory, "*.deploy.*" ) )
+			.concat( glob.sync( path.resolve( directory, "*.support.*" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.js" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.jsx" ) ) )
+			.map( ( file ) => mtch( file, FILE_MODULE_PATTERN, 1 ) )
+			.filter( truly )
+			.filter( ( name ) => unique( name ) )
+			.forEach( ( name ) => {
+				let deployPath = path.resolve( directory, `${ name }.deploy.js` );
+				kept( deployPath, true ) && fs.unlinkSync( deployPath );
 
-		let yarnPath = path.resolve( directory, "yarn.lock" );
-		kept( yarnPath, true ) && fs.unlinkSync( yarnPath );
+				let deployMapPath = path.resolve( directory, `${ name }.deploy.js.map` );
+				kept( deployMapPath, true ) && fs.unlinkSync( deployMapPath );
 
-		let packageLockPath = path.resolve( directory, "package-lock.json" );
-		kept( packageLockPath, true ) && fs.unlinkSync( packageLockPath );
+				let supportPath = path.resolve( directory, `${ name }.support.js` );
+				kept( supportPath, true ) && fs.unlinkSync( supportPath );
 
-		let npmshrinkwrapPath = path.resolve( directory, "npmshrinkwrap.json" );
-		kept( npmshrinkwrapPath, true ) && fs.unlinkSync( npmshrinkwrapPath );
+				let supportMapPath = path.resolve( directory, `${ name }.support.js.map` );
+				kept( supportMapPath, true ) && fs.unlinkSync( supportMapPath );
+
+				let modulePath = path.resolve( directory, `${ name }.js` );
+				kept( path.resolve( directory, `${ name }.module.js` ), true ) &&
+				kept( modulePath, true ) && fs.unlinkSync( modulePath );
+
+				let moduleMapPath = path.resolve( directory, `${ name }.js.map` );
+				kept( moduleMapPath, true ) && fs.unlinkSync( moduleMapPath );
+
+				let jsxPath = path.resolve( directory, `${ name }.jsx` );
+
+				let jsPath = path.resolve( directory, `${ name }.js` );
+				kept( jsxPath, true ) && kept( jsPath, true ) && fs.unlinkSync( jsPath );
+
+				let jsMapPath = path.resolve( directory, `${ name }.js.map` );
+				kept( jsxPath, true ) && kept( jsMapPath, true ) && fs.unlinkSync( jsMapPath );
+
+				let deployHTMLPath = path.resolve( directory, `${ name }.deploy.html` );
+				kept( deployHTMLPath, true ) && fs.unlinkSync( deployHTMLPath );
+
+				let supportHTMLPath = path.resolve( directory, `${ name }.support.html` );
+				kept( supportHTMLPath, true ) && fs.unlinkSync( supportHTMLPath );
+
+				let deployCSSPath = path.resolve( directory, `${ name }.deploy.css` );
+				kept( deployCSSPath, true ) && fs.unlinkSync( deployCSSPath );
+
+				let supportCSSPath = path.resolve( directory, `${ name }.support.css` );
+				kept( supportCSSPath, true ) && fs.unlinkSync( supportCSSPath );
+			} );
 
 	}catch( error ){
-		throw new Error( `cannot clean installed files, ${ error.stack }` );
+		throw new Error( `cannot clean generated module files, ${ error.stack }` );
 	}
 
 	if( !option.clear ){
-		try{
-			let unique = unqr.bind( [ ] );
+		let packagePath = path.resolve( directory, "package.json" );
+		if( kept( packagePath, true ) ){
+			try{
+				let packageData = JSON.parse( jersy( packagePath, true ) );
 
-			glob.sync( path.resolve( directory, "*.deploy.*" ) )
-				.concat( glob.sync( path.resolve( directory, "*.support.*" ) ) )
-				.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
-				.concat( glob.sync( path.resolve( directory, "*.js" ) ) )
-				.concat( glob.sync( path.resolve( directory, "*.jsx" ) ) )
-				.map( ( file ) => mtch( file, FILE_MODULE_PATTERN, 1 ) )
-				.filter( truly )
-				.filter( ( name ) => unique( name ) )
-				.forEach( ( name ) => {
-					let deployPath = path.resolve( directory, `${ name }.deploy.js` );
-					kept( deployPath, true ) && fs.unlinkSync( deployPath );
+				delete packageData.devDependencies;
+				delete packageData.dependencies;
 
-					let deployMapPath = path.resolve( directory, `${ name }.deploy.js.map` );
-					kept( deployMapPath, true ) && fs.unlinkSync( deployMapPath );
+				persy( packagePath, packageData, true );
 
-					let supportPath = path.resolve( directory, `${ name }.support.js` );
-					kept( supportPath, true ) && fs.unlinkSync( supportPath );
-
-					let supportMapPath = path.resolve( directory, `${ name }.support.js.map` );
-					kept( supportMapPath, true ) && fs.unlinkSync( supportMapPath );
-
-					let modulePath = path.resolve( directory, `${ name }.js` );
-					kept( path.resolve( directory, `${ name }.module.js` ), true ) &&
-					kept( modulePath, true ) && fs.unlinkSync( modulePath );
-
-					let moduleMapPath = path.resolve( directory, `${ name }.js.map` );
-					kept( moduleMapPath, true ) && fs.unlinkSync( moduleMapPath );
-
-					let jsxPath = path.resolve( directory, `${ name }.jsx` );
-
-					let jsPath = path.resolve( directory, `${ name }.js` );
-					kept( jsxPath, true ) && kept( jsPath, true ) && fs.unlinkSync( jsPath );
-
-					let jsMapPath = path.resolve( directory, `${ name }.js.map` );
-					kept( jsxPath, true ) && kept( jsMapPath, true ) && fs.unlinkSync( jsMapPath );
-
-					let deployHTMLPath = path.resolve( directory, `${ name }.deploy.html` );
-					kept( deployHTMLPath, true ) && fs.unlinkSync( deployHTMLPath );
-
-					let supportHTMLPath = path.resolve( directory, `${ name }.support.html` );
-					kept( supportHTMLPath, true ) && fs.unlinkSync( supportHTMLPath );
-
-					let deployCSSPath = path.resolve( directory, `${ name }.deploy.css` );
-					kept( deployCSSPath, true ) && fs.unlinkSync( deployCSSPath );
-
-					let supportCSSPath = path.resolve( directory, `${ name }.support.css` );
-					kept( supportCSSPath, true ) && fs.unlinkSync( supportCSSPath );
-				} );
-
-		}catch( error ){
-			throw new Error( `cannot clean generated module files, ${ error.stack }` );
+			}catch( error ){
+				throw new Error( `cannot clean package.json, ${ error.stack }` );
+			}
 		}
-	}
 
-	let packagePath = path.resolve( directory, "package.json" );
-	if( kept( packagePath, true ) ){
-		try{
-			let packageData = JSON.parse( jersy( packagePath, true ) );
+		let bowerPath = path.resolve( directory, "bower.json" );
+		if( kept( bowerPath, true ) ){
+			try{
+				let bowerData = JSON.parse( jersy( bowerPath, true ) );
 
-			delete packageData.devDependencies;
-			delete packageData.dependencies;
+				delete bowerData.resolutions;
+				delete bowerData.dependencies;
 
-			persy( packagePath, packageData, true );
+				persy( bowerPath, bowerData, true );
 
-		}catch( error ){
-			throw new Error( `cannot clean package.json, ${ error.stack }` );
-		}
-	}
-
-	let bowerPath = path.resolve( directory, "bower.json" );
-	if( kept( bowerPath, true ) ){
-		try{
-			let bowerData = JSON.parse( jersy( bowerPath, true ) );
-
-			delete bowerData.resolutions;
-			delete bowerData.dependencies;
-
-			persy( bowerPath, bowerData, true );
-
-		}catch( error ){
-			throw new Error( `cannot clean bower.json, ${ error.stack }` );
+			}catch( error ){
+				throw new Error( `cannot clean bower.json, ${ error.stack }` );
+			}
 		}
 	}
 
