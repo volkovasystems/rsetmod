@@ -191,6 +191,12 @@ const rsetmod = function rsetmod( directory, option ){
 
 				let supportCSSPath = path.resolve( directory, `${ name }.support.css` );
 				kept( supportCSSPath, true ) && fs.unlinkSync( supportCSSPath );
+
+				let deployJSONPath = path.resolve( directory, `${ name }.deploy.json` );
+				kept( deployJSONPath, true ) && fs.unlinkSync( deployJSONPath );
+
+				let supportJSONPath = path.resolve( directory, `${ name }.support.json` );
+				kept( supportJSONPath, true ) && fs.unlinkSync( supportJSONPath );
 			} );
 
 	}catch( error ){
