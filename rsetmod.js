@@ -146,6 +146,7 @@ const rsetmod = function rsetmod( directory, option ){
 
 		glob.sync( path.resolve( directory, "*.deploy.*" ) )
 			.concat( glob.sync( path.resolve( directory, "*.support.*" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.bridge.*" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.js" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.jsx" ) ) )
@@ -164,6 +165,12 @@ const rsetmod = function rsetmod( directory, option ){
 
 				let supportMapPath = path.resolve( directory, `${ name }.support.js.map` );
 				kept( supportMapPath, true ) && fs.unlinkSync( supportMapPath );
+
+				let bridgePath = path.resolve( directory, `${ name }.bridge.js` );
+				kept( bridgePath, true ) && fs.unlinkSync( bridgePath );
+
+				let bridgeMapPath = path.resolve( directory, `${ name }.bridge.js.map` );
+				kept( bridgeMapPath, true ) && fs.unlinkSync( bridgeMapPath );
 
 				let modulePath = path.resolve( directory, `${ name }.js` );
 				kept( path.resolve( directory, `${ name }.module.js` ), true ) &&
