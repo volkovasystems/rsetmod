@@ -1,6 +1,6 @@
 {
 	"name": "rsetmod",
-	"version": "0.7.0",
+	"version": "0.8.0",
 	"description": "Reset module to pristine development mode.",
 	"main": "rsetmod.js",
 	"scripts": {
@@ -41,7 +41,7 @@
 		"mtch": "^0.4.0",
 		"persy": "^0.15.0",
 		"raze": "^0.33.0",
-		"truly": "^0.19.0",
+		"truly": "^0.20.0",
 		"unqr": "^0.0.0",
 		"yargs": "^8.0.2"
 	}

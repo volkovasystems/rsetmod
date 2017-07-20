@@ -150,6 +150,7 @@ const rsetmod = function rsetmod( directory, option ){
 			.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.js" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.jsx" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.mjml" ) ) )
 			.map( ( file ) => mtch( file, FILE_MODULE_PATTERN, 1 ) )
 			.filter( truly )
 			.filter( ( name ) => unique( name ) )
@@ -185,7 +186,7 @@ const rsetmod = function rsetmod( directory, option ){
 				kept( jsxPath, true ) && kept( jsPath, true ) && fs.unlinkSync( jsPath );
 
 				let jsMapPath = path.resolve( directory, `${ name }.js.map` );
-				kept( jsxPath, true ) && kept( jsMapPath, true ) && fs.unlinkSync( jsMapPath );
+				kept( jsMapPath, true ) && fs.unlinkSync( jsMapPath );
 
 				let deployHTMLPath = path.resolve( directory, `${ name }.deploy.html` );
 				kept( deployHTMLPath, true ) && fs.unlinkSync( deployHTMLPath );
@@ -204,6 +205,10 @@ const rsetmod = function rsetmod( directory, option ){
 
 				let supportJSONPath = path.resolve( directory, `${ name }.support.json` );
 				kept( supportJSONPath, true ) && fs.unlinkSync( supportJSONPath );
+
+				let mjmlPath = path.resolve( directory, `${ name }.mjml` );
+				let htmlPath = path.resolve( directory, `${ name }.html` );
+				kept( mjmlPath, true ) && kept( htmlPath, true ) && fs.unlinkSync( htmlPath );
 			} );
 
 	}catch( error ){
