@@ -95,7 +95,7 @@ const raze = require( "raze" );
 const truly = require( "truly" );
 const unqr = require( "unqr" );
 
-const FILE_MODULE_PATTERN = /([a-zA-Z0-9\-\_]+?)\.(?:deploy|support|module)\.(?:js|html|css|json)$/;
+const FILE_MODULE_PATTERN = /([a-zA-Z0-9\-\_]+?)\.(?:bridge|deploy|module|support)\.(?:css|js|json|jsx|html|mjml)$/;
 
 const rsetmod = function rsetmod( directory, option ){
 	/*;
