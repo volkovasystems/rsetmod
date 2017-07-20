@@ -95,7 +95,7 @@ const raze = require( "raze" );
 const truly = require( "truly" );
 const unqr = require( "unqr" );
 
-const FILE_MODULE_PATTERN = /([a-zA-Z0-9\-\_]+?)\.(?:bridge|deploy|module|support)\.(?:css|js|json|jsx|html|mjml)$/;
+const FILE_MODULE_PATTERN = /([a-zA-Z0-9\-\_]+?)\.?(?:bridge|deploy|module|support)?\.(?:css|js|json|jsx|html|mjml)$/;
 
 const rsetmod = function rsetmod( directory, option ){
 	/*;
@@ -173,15 +173,14 @@ const rsetmod = function rsetmod( directory, option ){
 				let bridgeMapPath = path.resolve( directory, `${ name }.bridge.js.map` );
 				kept( bridgeMapPath, true ) && fs.unlinkSync( bridgeMapPath );
 
-				let modulePath = path.resolve( directory, `${ name }.js` );
-				kept( path.resolve( directory, `${ name }.module.js` ), true ) &&
-				kept( modulePath, true ) && fs.unlinkSync( modulePath );
+				let modulePath = path.resolve( directory, `${ name }.module.js` );
+				let mainPath = path.resolve( directory, `${ name }.js` );
+				kept( modulePath, true ) && kept( mainPath, true ) && fs.unlinkSync( mainPath );
 
 				let moduleMapPath = path.resolve( directory, `${ name }.js.map` );
 				kept( moduleMapPath, true ) && fs.unlinkSync( moduleMapPath );
 
 				let jsxPath = path.resolve( directory, `${ name }.jsx` );
-
 				let jsPath = path.resolve( directory, `${ name }.js` );
 				kept( jsxPath, true ) && kept( jsPath, true ) && fs.unlinkSync( jsPath );
 
