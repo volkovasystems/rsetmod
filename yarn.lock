@@ -111,6 +111,13 @@ asea@^0.14.0:
     babel-runtime "^6.23.0"
     harden "^0.22.0"
 
+asea@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/asea/-/asea-0.16.0.tgz#f4360f825d03eb96c606f3b863df722f6399a2f0"
+  dependencies:
+    babel-runtime "^6.23.0"
+    harden "^0.23.0"
+
 async@^1.4.0:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
@@ -264,8 +271,8 @@ chion@^0.1.0:
     protype "^0.22.0"
 
 circular-json@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.1.tgz#be8b36aefccde8b3ca7aa2d6afc07a37242c0d2d"
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
 
 clazof@^0.31.0:
   version "0.31.0"
@@ -404,11 +411,12 @@ core-js@^2.4.0:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.4.1.tgz#4de911e667b0eae9124e34254b53aea6fc618d3e"
 
-cross-spawn@^4.0.0:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-4.0.2.tgz#7b9247621c23adfdd3856004a823cbe397424d41"
+cross-spawn@^5.0.1:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
   dependencies:
     lru-cache "^4.0.1"
+    shebang-command "^1.2.0"
     which "^1.2.9"
 
 crount@^0.1.0:
@@ -494,6 +502,17 @@ dephall@^0.35.0:
     truly "^0.19.0"
     zelf "^0.12.0"
 
+dephall@^0.36.0:
+  version "0.36.0"
+  resolved "https://registry.yarnpkg.com/dephall/-/dephall-0.36.0.tgz#1390eed0358781538f55e84f4c7ccf8df40109fe"
+  dependencies:
+    arid "^0.29.0"
+    babel-runtime "^6.23.0"
+    pyck "^0.37.0"
+    shft "^0.4.0"
+    truly "^0.20.0"
+    zelf "^0.13.0"
+
 depher@^0.35.0:
   version "0.35.0"
   resolved "https://registry.yarnpkg.com/depher/-/depher-0.35.0.tgz#41480e604e51d3aaed461a430b5444761ba80cc6"
@@ -513,6 +532,15 @@ depher@^0.36.0:
     doubt "^0.30.0"
     raze "^0.33.0"
     zelf "^0.12.0"
+
+depher@^0.37.0:
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/depher/-/depher-0.37.0.tgz#298dab2c80d423e102bfbe3f2d17d98a5ceeaf31"
+  dependencies:
+    babel-runtime "^6.23.0"
+    dephall "^0.36.0"
+    raze "^0.34.0"
+    zelf "^0.13.0"
 
 detr@^0.1.0:
   version "0.1.0"
@@ -783,12 +811,12 @@ error-ex@^1.2.0:
   dependencies:
     is-arrayish "^0.2.1"
 
-execa@^0.5.0:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/execa/-/execa-0.5.1.tgz#de3fb85cb8d6e91c85bcbceb164581785cb57b36"
+execa@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/execa/-/execa-0.7.0.tgz#944becd34cc41ee32a63a9faf27ad5a65fc59777"
   dependencies:
-    cross-spawn "^4.0.0"
-    get-stream "^2.2.0"
+    cross-spawn "^5.0.1"
+    get-stream "^3.0.0"
     is-stream "^1.1.0"
     npm-run-path "^2.0.0"
     p-finally "^1.0.0"
@@ -967,12 +995,9 @@ get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
 
-get-stream@^2.2.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-2.3.1.tgz#5f38f93f346009666ee0150a054167f91bdd95de"
-  dependencies:
-    object-assign "^4.0.1"
-    pinkie-promise "^2.0.0"
+get-stream@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
 
 glob@^7.1.2:
   version "7.1.2"
@@ -1002,6 +1027,12 @@ handlebars@^4.0.10:
 harden@^0.22.0:
   version "0.22.0"
   resolved "https://registry.yarnpkg.com/harden/-/harden-0.22.0.tgz#1bcd6cdfd8ce60726009053981b9b37875a2404b"
+  dependencies:
+    babel-runtime "^6.23.0"
+
+harden@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/harden/-/harden-0.23.0.tgz#cfe6aaa2f30ad4b27d87fb3fe4a4090fca880b33"
   dependencies:
     babel-runtime "^6.23.0"
 
@@ -1650,10 +1681,6 @@ numric@^0.16.0:
     stringe "^0.4.0"
     truly "^0.19.0"
 
-object-assign@^4.0.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
-
 once@^1.3.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
@@ -1688,10 +1715,10 @@ optimist@^0.6.1:
     wordwrap "~0.0.2"
 
 os-locale@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/os-locale/-/os-locale-2.0.0.tgz#15918ded510522b81ee7ae5a309d54f639fc39a4"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/os-locale/-/os-locale-2.1.0.tgz#42bc2900a6b5b8bd17376c8e882b65afccf24bf2"
   dependencies:
-    execa "^0.5.0"
+    execa "^0.7.0"
     lcid "^1.0.0"
     mem "^1.1.0"
 
@@ -1780,16 +1807,6 @@ pify@^2.0.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
 
-pinkie-promise@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/pinkie-promise/-/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"
-  dependencies:
-    pinkie "^2.0.0"
-
-pinkie@^2.0.0:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
-
 plough@^0.26.0:
   version "0.26.0"
   resolved "https://registry.yarnpkg.com/plough/-/plough-0.26.0.tgz#dbd4c3987b7bb49fcbd6561f66a8b299a1bb1537"
@@ -1873,6 +1890,15 @@ pyck@^0.36.0:
     raze "^0.33.0"
     zelf "^0.12.0"
 
+pyck@^0.37.0:
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/pyck/-/pyck-0.37.0.tgz#f82b04a6ae6f9a05c2194cc571641eec5b90120c"
+  dependencies:
+    babel-runtime "^6.23.0"
+    condev "^0.17.0"
+    raze "^0.34.0"
+    zelf "^0.13.0"
+
 pyp@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/pyp/-/pyp-0.2.0.tgz#c7e061cd0ef06804d0fdd67a0caabaae64cf64d2"
@@ -1904,6 +1930,12 @@ raze@^0.30.0:
 raze@^0.33.0:
   version "0.33.0"
   resolved "https://registry.yarnpkg.com/raze/-/raze-0.33.0.tgz#fd399e9104499fbd1061340d92b6cc14dbf0b6d7"
+  dependencies:
+    babel-runtime "^6.23.0"
+
+raze@^0.34.0:
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/raze/-/raze-0.34.0.tgz#12200a3b84d46fdc81bd6ef3b38fdf3e9fff672b"
   dependencies:
     babel-runtime "^6.23.0"
 
@@ -2021,8 +2053,8 @@ scrivi@^0.17.0:
     zelf "^0.12.0"
 
 "semver@2 || 3 || 4 || 5":
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-5.4.1.tgz#e059c09d8571f0540823733433505d3a2f00b18e"
 
 sepby@^0.6.0:
   version "0.6.0"
@@ -2038,6 +2070,16 @@ sepby@^0.6.0:
 set-blocking@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
+
+shebang-command@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"
+  dependencies:
+    shebang-regex "^1.0.0"
+
+shebang-regex@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
 shft@^0.2.0:
   version "0.2.0"
@@ -2503,4 +2545,11 @@ zelf@^0.12.0:
   resolved "https://registry.yarnpkg.com/zelf/-/zelf-0.12.0.tgz#39e7cfe074df5710fc156978d1f74c69342102cf"
   dependencies:
     asea "^0.14.0"
+    babel-runtime "^6.23.0"
+
+zelf@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/zelf/-/zelf-0.13.0.tgz#a642981bd3dd08653c61f4513a6f096c5fc1bb7d"
+  dependencies:
+    asea "^0.16.0"
     babel-runtime "^6.23.0"
