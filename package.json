@@ -1,6 +1,6 @@
 {
 	"name": "rsetmod",
-	"version": "0.12.0",
+	"version": "0.13.0",
 	"description": "Reset module to pristine development mode.",
 	"main": "rsetmod.js",
 	"scripts": {

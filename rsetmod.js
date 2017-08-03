@@ -204,6 +204,10 @@ const rsetmod = function rsetmod( directory, option ){
 				let jsPath = path.resolve( directory, `${ name }.js` );
 				kept( jsxPath, true ) && kept( jsPath, true ) && fs.unlinkSync( jsPath );
 
+				let moduleJSXPath = path.resolve( directory, `${ name }.module.jsx` );
+				let mainJSXPath = path.resolve( directory, `${ name }.jsx` );
+				kept( moduleJSXPath, true ) && kept( mainJSXPath, true ) && fs.unlinkSync( mainJSXPath );
+
 				let jsMapPath = path.resolve( directory, `${ name }.js.map` );
 				kept( jsMapPath, true ) && fs.unlinkSync( jsMapPath );
 
