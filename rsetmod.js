@@ -95,7 +95,7 @@ const raze = require( "raze" );
 const truly = require( "truly" );
 const unqr = require( "unqr" );
 
-const FILE_MODULE_PATTERN = /([a-zA-Z0-9\-\_]+?)\.?(?:base|bridge|deploy|module|support)?\.(?:css|js|json|jsx|html|mjml|png)$/;
+const FILE_MODULE_PATTERN = /([a-zA-Z0-9\-\_]+?)\.?(?:base|bridge|deploy|module|support|visual)?\.(?:css|js|json|jsx|html|mjml|png)$/;
 
 const rsetmod = function rsetmod( directory, option ){
 	/*;
@@ -142,11 +142,24 @@ const rsetmod = function rsetmod( directory, option ){
 	}
 
 	try{
+		glob.sync( path.resolve( directory, "*.log.*" ) )
+			.concat( glob.sync( path.resolve( directory, "*.log" ) ) )
+			.forEach( ( file ) => {
+				let logPath = path.resolve( directory, file );
+				kept( logPath, true ) && fs.unlinkSync( logPath );
+			} );
+
+	}catch( error ){
+		throw new Error( `cannot clean logged files, ${ error.stack }` );
+	}
+
+	try{
 		let unique = unqr.bind( [ ] );
 
 		glob.sync( path.resolve( directory, "*.deploy.*" ) )
 			.concat( glob.sync( path.resolve( directory, "*.support.*" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.bridge.*" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.visual.*" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.module.js" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.js" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.jsx" ) ) )
@@ -173,6 +186,12 @@ const rsetmod = function rsetmod( directory, option ){
 
 				let bridgeMapPath = path.resolve( directory, `${ name }.bridge.js.map` );
 				kept( bridgeMapPath, true ) && fs.unlinkSync( bridgeMapPath );
+
+				let visualPath = path.resolve( directory, `${ name }.visual.js` );
+				kept( visualPath, true ) && fs.unlinkSync( visualPath );
+
+				let visualMapPath = path.resolve( directory, `${ name }.visual.js.map` );
+				kept( visualMapPath, true ) && fs.unlinkSync( visualMapPath );
 
 				let modulePath = path.resolve( directory, `${ name }.module.js` );
 				let mainPath = path.resolve( directory, `${ name }.js` );
