@@ -95,7 +95,7 @@ const raze = require( "raze" );
 const truly = require( "truly" );
 const unqr = require( "unqr" );
 
-const FILE_MODULE_PATTERN = /([a-zA-Z0-9\-\_]+?)\.?(?:base|bridge|deploy|module|support|visual)?\.(?:css|js|json|jsx|html|mjml|png)$/;
+const FILE_MODULE_PATTERN = /([a-zA-Z0-9\-\_]+?)\.?(?:base|bridge|deploy|module|support|visual)?\.(?:css|js|json|jsx|html|mjml|png|scss)$/;
 
 const rsetmod = function rsetmod( directory, option ){
 	/*;
@@ -165,6 +165,7 @@ const rsetmod = function rsetmod( directory, option ){
 			.concat( glob.sync( path.resolve( directory, "*.jsx" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.mjml" ) ) )
 			.concat( glob.sync( path.resolve( directory, "*.base.png" ) ) )
+			.concat( glob.sync( path.resolve( directory, "*.scss" ) ) )
 			.map( ( file ) => mtch( file, FILE_MODULE_PATTERN, 1 ) )
 			.filter( truly )
 			.filter( ( name ) => unique( name ) )
@@ -236,6 +237,10 @@ const rsetmod = function rsetmod( directory, option ){
 				let baseImagePath = path.resolve( directory, `${ name }.base.png` );
 				let testImagePath = path.resolve( directory, `${ name }.test.png` );
 				kept( baseImagePath, true ) && kept( testImagePath, true ) && fs.unlinkSync( testImagePath );
+
+				let scssPath = path.resolve( directory, `${ name }.scss` );
+				let cssPath = path.resolve( directory, `${ name }.css` );
+				kept( scssPath, true ) && kept( cssPath, true ) && fs.unlinkSync( cssPath );
 			} );
 
 	}catch( error ){
